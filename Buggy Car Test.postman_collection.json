@@ -1,0 +1,1000 @@
+{
+	"info": {
+		"_postman_id": "04e066ff-b9d1-4e6f-9f55-354576734540",
+		"name": "Buggy Car Test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Register",
+			"item": [
+				{
+					"name": "Empty JSON body",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response;\r",
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code is Bad Request\", function () {\r",
+									"    pm.response.to.have.status(\"Bad Request\");\r",
+									"});\r",
+									"\r",
+									"//Response Body\r",
+									"pm.test(\"Empty json body\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Invalid request.\");\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{environment}}/prod/users",
+							"host": [
+								"{{environment}}"
+							],
+							"path": [
+								"prod",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Empty fields value",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response;\r",
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code is Bad Request\", function () {\r",
+									"    pm.response.to.have.status(\"Bad Request\");\r",
+									"});\r",
+									"\r",
+									"//Response Body\r",
+									"pm.test(\"Empty values\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"password is required\");\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"username\": \" \",\r\n \"firstName\": \" \", \r\n \"lastName\": \" \", \r\n \"password\": \"\", \r\n \"confirmPassword\": \"\"\r\n }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{environment}}/prod/users",
+							"host": [
+								"{{environment}}"
+							],
+							"path": [
+								"prod",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Existing UserName",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response;\r",
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code is Bad Request\", function () {\r",
+									"    pm.response.to.have.status(\"Bad Request\");\r",
+									"});\r",
+									"\r",
+									"//Response Body\r",
+									"pm.test(\"Empty json body\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"UsernameExistsException: User already exists\");\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"username\": \"{{username}}\",\r\n \"firstName\": \"{{$randomFirstName}}\", \r\n \"lastName\": \"{{$randomLastName}} \", \r\n \"password\": \"Test1234!\", \r\n \"confirmPassword\": \"Test1234!\"\r\n }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{environment}}/prod/users",
+							"host": [
+								"{{environment}}"
+							],
+							"path": [
+								"prod",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Successful Registration",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response;\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code is Created\", function () {\r",
+									"    pm.response.to.have.status(\"Created\");\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"username\": \"{{$randomUserName}}\",\r\n \"firstName\": \"{{$randomFirstName}}\", \r\n \"lastName\": \"{{$randomLastName}} \", \r\n \"password\": \"Test1234!\", \r\n \"confirmPassword\": \"Test1234!\"\r\n }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{environment}}/prod/users",
+							"host": [
+								"{{environment}}"
+							],
+							"path": [
+								"prod",
+								"users"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Login",
+			"item": [
+				{
+					"name": "Unauthorized",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 401\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code is Unauthorized\", function () {\r",
+									"    pm.response.to.have.status(\"Unauthorized\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Invalid login\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Invalid credentials\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "MEL {{$randomAlphaNumeric}}",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "Password1!",
+									"type": "text"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{environment}}/prod/oauth/token",
+							"host": [
+								"{{environment}}"
+							],
+							"path": [
+								"prod",
+								"oauth",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Empty value",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response;\r",
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code is Bad Request\", function () {\r",
+									"    pm.response.to.have.status(\"Bad Request\");\r",
+									"});\r",
+									"\r",
+									"//Response Body\r",
+									"pm.test(\"Empty json body\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Invalid request.\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "text"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{environment}}/prod/oauth/token",
+							"host": [
+								"{{environment}}"
+							],
+							"path": [
+								"prod",
+								"oauth",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Successful Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if(pm.response.code == 200) {\r",
+									"        var jsonData = pm.response.json();\r",
+									"        pm.environment.set(\"access_token\", jsonData.access_token);\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "MEL",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "Password1!",
+									"type": "text"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{environment}}/prod/oauth/token",
+							"host": [
+								"{{environment}}"
+							],
+							"path": [
+								"prod",
+								"oauth",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Successful Login info",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code is OK successful GET\", function () {\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"firstName is correct\", function () {\r",
+									"    pm.expect(jsonData.firstName).to.eql(pm.environment.get(\"firstName\"));\r",
+									"});\r",
+									"\r",
+									"pm.test(\"lastName is correct\", function () {\r",
+									"    pm.expect(jsonData.lastName).to.eql(pm.environment.get(\"lastName\"));\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{environment}}/prod/users/current",
+							"host": [
+								"{{environment}}"
+							],
+							"path": [
+								"prod",
+								"users",
+								"current"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Profile",
+			"item": [
+				{
+					"name": "Incorrect Age format",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									" var response;\r",
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"    \r",
+									"});\r",
+									"\r",
+									"//Response Body\r",
+									"pm.test(\"Incorrect Age\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Get a candy ;)\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"MEL\",\r\n    \"firstName\": \"Sancho Sr.\",\r\n    \"lastName\": \"Dela Paz\",\r\n    \"gender\": \"Female\",\r\n    \"age\": \"25 plus\",\r\n    \"address\": \"\",\r\n    \"phone\": \"+++++++++++4444\",\r\n    \"hobby\": \"Working\",\r\n    \"currentPassword\": \"Password2!\",\r\n    \"newPassword\": \"Password1!\",\r\n    \"newPasswordConfirmation\": \"Password1!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{environment}}/prod/users/profile",
+							"host": [
+								"{{environment}}"
+							],
+							"path": [
+								"prod",
+								"users",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Profile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									" var response;\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    response = pm.response.json();\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"MEL\",\r\n    \"firstName\": \"Sancho Sr.\",\r\n    \"lastName\": \"Dela Paz\",\r\n    \"gender\": \"Female\",\r\n    \"age\": \"25\",\r\n    \"address\": \"\",\r\n    \"phone\": \"+++++++++++4444\",\r\n    \"hobby\": \"Working\",\r\n    \"currentPassword\": \"\",\r\n    \"newPassword\": \"\",\r\n    \"newPasswordConfirmation\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{environment}}/prod/users/profile",
+							"host": [
+								"{{environment}}"
+							],
+							"path": [
+								"prod",
+								"users",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Profile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									" var response;\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    response = pm.response.json();\r",
+									"});\r",
+									"\r",
+									"//Test 2 - mandatory fields\r",
+									"pm.test(\"username is correct\", function () {\r",
+									"    pm.expect(response.username).to.eql(pm.environment.get(\"username\"));\r",
+									"});  \r",
+									"\r",
+									"pm.test(\"firstName is correct\", function () {\r",
+									"    pm.expect(response.firstName).to.eql(pm.environment.get(\"firstName\"));\r",
+									"});\r",
+									"\r",
+									"pm.test(\"lastName is correct\", function () {\r",
+									"    pm.expect(response.lastName).to.eql(pm.environment.get(\"lastName\"));\r",
+									"}); \r",
+									"\r",
+									"pm.test(\"gender in the response\", function () {\r",
+									"    pm.expect(response.gender).not.eql(undefined);\r",
+									"}); \r",
+									"\r",
+									"\r",
+									"pm.test(\"age in the response\", function () {\r",
+									"    pm.expect(response.age).to.eql(pm.environment.get(\"age\"));\r",
+									"}); \r",
+									"\r",
+									"pm.test(\"address in the response\", function () {\r",
+									"    pm.expect(response.address).not.eql(undefined);\r",
+									"}); \r",
+									"\r",
+									"pm.test(\"phone in the response\", function () {\r",
+									"    pm.expect(response.phone).not.eql(undefined);\r",
+									"}); \r",
+									"\r",
+									"pm.test(\"hobby in the response\", function () {\r",
+									"    pm.expect(response.hobby).not.eql(undefined);\r",
+									"}); \r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{environment}}/prod/users/profile",
+							"host": [
+								"{{environment}}"
+							],
+							"path": [
+								"prod",
+								"users",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Dashboard",
+			"item": [
+				{
+					"name": "Home page",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"var response;\r",
+									"//Test 1 - response code\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    response = pm.response.json();\r",
+									"});\r",
+									"\r",
+									"//code name\r",
+									"pm.test(\"Status code name\", function () {\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{environment}}/prod/dashboard",
+							"host": [
+								"{{environment}}"
+							],
+							"path": [
+								"prod",
+								"dashboard"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Pagination",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"var response;\r",
+									"//Test 1 - response code\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    response = pm.response.json();\r",
+									"});\r",
+									"\r",
+									"//code name\r",
+									"pm.test(\"Status code name\", function () {\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"totalPages is correct\", function () {\r",
+									"    pm.expect(response.totalPages).eql(5);\r",
+									"}); \r",
+									"\r",
+									"pm.test(\"models in the response\", function () {\r",
+									"    pm.expect(response.models).not.eql(undefined);\r",
+									"}); \r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{environment}}/prod/models?page=1",
+							"host": [
+								"{{environment}}"
+							],
+							"path": [
+								"prod",
+								"models"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Car info",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"var response;\r",
+									"//Test 1 - response code\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    response = pm.response.json();\r",
+									"});\r",
+									"\r",
+									"//code name\r",
+									"pm.test(\"Status code name\", function () {\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"name in the response\", function () {\r",
+									"    pm.expect(response.name).not.eql(undefined);\r",
+									"}); \r",
+									"\r",
+									"\r",
+									"pm.test(\"description in the response\", function () {\r",
+									"    pm.expect(response.description).not.eql(undefined);\r",
+									"}); "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://k51qryqov3.execute-api.ap-southeast-2.amazonaws.com/prod/models/c4u1mqnarscc72is00e0%7Cc4u1mqnarscc72is00jg",
+							"protocol": "https",
+							"host": [
+								"k51qryqov3",
+								"execute-api",
+								"ap-southeast-2",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"prod",
+								"models",
+								"c4u1mqnarscc72is00e0%7Cc4u1mqnarscc72is00jg"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Vote",
+			"item": [
+				{
+					"name": "Vote logged out",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response;\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code is OK\", function () {\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"//Since there is authorization/token in this test it's considered as logged in\r",
+									"pm.test(\"Should not be able to vote\", function () {\r",
+									"    pm.expect(jsonData.canVote)==\"true\";\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{environment}}/prod/models/c4u1mqnarscc72is013g%7Cc4u1mqnarscc72is0170",
+							"host": [
+								"{{environment}}"
+							],
+							"path": [
+								"prod",
+								"models",
+								"c4u1mqnarscc72is013g%7Cc4u1mqnarscc72is0170"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Vote logged in",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response;\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code is OK\", function () {\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"//Since no authorization/token in this test it's considered as NOT logged in\r",
+									"pm.test(\"Should not be able to vote\", function () {\r",
+									"    pm.expect(jsonData.canVote)==\"false\";\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{environment}}/prod/models/c4u1mqnarscc72is013g%7Cc4u1mqnarscc72is0170",
+							"host": [
+								"{{environment}}"
+							],
+							"path": [
+								"prod",
+								"models",
+								"c4u1mqnarscc72is013g%7Cc4u1mqnarscc72is0170"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
